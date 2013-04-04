@@ -7,7 +7,7 @@ require 'active_support/core_ext/string'
 require 'mocha'
 require 'i18n'
 require 'net/http'
-require File.dirname(File.expand_path(__FILE__)) + '/../lib/recaptcha'
+require File.dirname(File.expand_path(__FILE__)) + '/../lib/playcaptcha'
 
 class RecaptchaVerifyTest < Test::Unit::TestCase
   def setup

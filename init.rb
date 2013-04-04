@@ -1,5 +1,5 @@
 # Rails plugin initialization.
 # You can also install it as a gem:
-#   config.gem "ambethia-recaptcha", :lib => "recaptcha/rails", :source => "http://gems.github.com"
+#   config.gem "ambethia-recaptcha", :lib => "playcaptcha/rails", :source => "http://gems.github.com"
 
-require 'recaptcha/rails'
+require 'playcaptcha/rails'
