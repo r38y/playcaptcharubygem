@@ -8,6 +8,7 @@ module PlayCaptcha
       raise RecaptchaError, "No public key specified." unless key
       error = options[:error] ||= ((defined? flash) ? flash[:recaptcha_error] : "")
       uri   = PlayCaptcha.configuration.api_server_url(options[:ssl])
+      playCaptchaUri = "http://service.futureadlabs.com?time_stamp=" + Time.now.to_i.to_s
       lang  = options[:display] && options[:display][:lang] ? options[:display][:lang].to_sym : ""
       html  = ""
       if options[:display]
@@ -46,7 +47,7 @@ module PlayCaptcha
           html << %{<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>}
           html << %{</noscript>\n}
         end
-        html << %{<script type="text/javascript" src="http://service.futureadlabs.com"></script>}
+        html << %{<script type="text/javascript" src="#{playCaptchaUri}"></script>}
       end
       return (html.respond_to?(:html_safe) && html.html_safe) || html
     end # recaptcha_tags
