@@ -1,0 +1,130 @@
+<html><body>
+<div style="background:#1d2025; padding:0 3px; max-width:600px; min-width:300px; margin:auto">	<a href="http://digital-spin.com"><img src="http://dashboard.futureadlabs.com:3000/images/falLogo.png" alt="Digital Spin logo" style="margin:0px 0 0px 30px"/></a>	<table style="width:100%; border-radius:15px;" cellspacing=0 cellpadding=0><tr><td style="background:#f7f7f7; padding:30px;"> <h1 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">PlayCaptcha Ruby on Rails integration guide</h1><p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+This plugin adds helpers for the PlayCaptcha API and falls back to reCAPTCHA API if required. In your views you can use the playcaptcha_tags method to embed the required javascript, and you can validate the response in your controllers with the verify_playcaptcha method.
+<br><br>
+Beforehand you need to configure Recaptcha with your custom private and public key. You may find detailed examples below. Exceptions will be raised if you call these methods and the keys can't be found.<br><br>
+</p>
+<h2 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">Rails Installation</h2>
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+PlayCaptcha for Rails > 3.0, add this line to your Gemfile:
+<br/>
+<br/>
+<strong>gem "playcaptcha", :require => "playcaptcha/rails"</strong>
+<br/>
+<br/>
+Rails apps below 3.0 are not supported.
+</p>
+
+<h2 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">Setting up your reCAPTCHA API Keys</h2>
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+There are multiple ways to setup your reCAPTCHA API key once you <a href="http://recaptcha.net/whyrecaptcha.html">obtain</a> a pair.
+</p>
+
+<h2 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">PlayCaptcha.configure</h2>
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+You may use the block style configuration. The following code could be placed into a config/initializers/playcaptcha.rb file when used in a Rails project.
+</p>
+<pre>
+  PlayCaptcha.configure do |config|
+    config.public_key  = '6Lc6BAAAAAAAAChqRbQZcn_yyyyyyyyyyyyyyyyy'
+    config.private_key = '6Lc6BAAAAAAAAKN3DRm6VA_xxxxxxxxxxxxxxxxx'
+  end
+</pre>
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+This way, you may also set additional options to fit recaptcha into your
+deployment environment.
+</p>
+
+<h2 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">PlayCaptcha.with_configuration</h2>
+
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+If you want to temporarily overwrite the configuration you set with `PlayCaptcha.configure` (when testing, for example), you can use a `PlayCaptcha.with_configuration` block:
+</p>
+<pre>
+PlayCaptcha.with_configuration(:public_key => '12345') do
+  # Do stuff with the overwritten public_key.
+end
+</pre>
+
+<h2 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">Heroku & Shell environment</h2>
+
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+Or, you can keep your keys out of your code base by exporting the following environment variables. You might do this in the profile/rc, or equivalent for the user running your application. This would also be the preffered method in an Heroku deployment.
+</p>
+<code>
+export RECAPTCHA_PUBLIC_KEY  = '6Lc6BAAAAAAAAChqRbQZcn_yyyyyyyyyyyyyyyyy'<br/>
+export RECAPTCHA_PRIVATE_KEY = '6Lc6BAAAAAAAAKN3DRm6VA_xxxxxxxxxxxxxxxxx'
+</code>
+
+<h2 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">Per call</h2>
+
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+You can also pass in your keys as options at runtime, for example:
+</p>
+
+<code>
+playcaptcha_tags :public_key => '6Lc6BAAAAAAAAChqRbQZcn_yyyyyyyyyyyyyyyyy'
+</code>
+
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+and later,
+</p>
+
+<code>
+verify_playcaptcha :private_key => '6Lc6BAAAAAAAAKN3DRm6VA_xxxxxxxxxxxxxxxxx'
+</code>
+
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+This option might be useful, if the same code base is used for multiple
+reCAPTCHA setups.
+</p>
+
+<h2 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">To use 'PlayCaptcha'</h2>
+
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+Add recaptcha_tags to each form you want to protect. eg:
+</p>
+
+<code>
+<%= playcaptcha_tags %>
+</code>
+
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+And, add verify_playcaptcha(...) logic to each form action that you've protected.
+</p>
+
+<h2 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">verify_playcaptcha</h2>
+
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+This method returns true or false after processing the parameters from the PlayCaptcha/reCAPTCHA widget. Why
+isn't this a model validation? Because that violates MVC. You can use it like this, or how ever you
+like. Passing in the ActiveRecord object is optional, if you do--and the captcha fails to verify--an
+error will be added to the object for you to use.
+<br/>
+<br/>
+Some of the options available:
+<br/>
+<br/>
+:model -       Model to set errors<br/>
+:attribute -   Model attribute to receive errors (default :base)<br/>
+:message -     Custom error message<br/>
+:private_key - Your private API key, takes precedence over the ENV variable (default +nil+).<br/>
+:timeout -     The number of seconds to wait for servers before giving up. (default +3+)<br/>
+</p>
+
+<pre>
+  respond_to do |format|
+    if verify_playcaptcha(:model => @post) && @post.save
+      # ...
+    else
+      # ...
+    end
+  end
+</pre>
+
+<p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
+If you have any issues please contact us at support@futureadlabs.com<br><br>
+</td></tr>
+</table>	
+
+<div style="font-family:Arial, sans-serif; font-size:12px; text-align:center; color:#888; padding:30px">&copy; Future Ad Labs &nbsp;|&nbsp; <span style="outline:none !important; text-decoration:none !important">futureadlabs.com</span> &nbsp;&nbsp;| info@futureadlabs.com</div>
