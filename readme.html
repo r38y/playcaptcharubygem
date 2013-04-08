@@ -2,7 +2,8 @@
 <div style="background:#1d2025; padding:0 3px; max-width:600px; min-width:300px; margin:auto">	<a href="http://digital-spin.com"><img src="http://dashboard.futureadlabs.com:3000/images/falLogo.png" alt="Digital Spin logo" style="margin:0px 0 0px 30px"/></a>	<table style="width:100%; border-radius:15px;" cellspacing=0 cellpadding=0><tr><td style="background:#f7f7f7; padding:30px;"> <h1 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">PlayCaptcha Ruby on Rails integration guide</h1><p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
 This plugin adds helpers for the PlayCaptcha API and falls back to reCAPTCHA API if required. In your views you can use the playcaptcha_tags method to embed the required javascript, and you can validate the response in your controllers with the verify_playcaptcha method.
 <br><br>
-Beforehand you need to configure Recaptcha with your custom private and public key. You may find detailed examples below. Exceptions will be raised if you call these methods and the keys can't be found.<br><br>
+Before continuing, please disable any code you might have which places alternive captcha solutions on the pages you wish to use PlayCaptcha.
+<br><br>
 </p>
 <h2 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">Rails Installation</h2>
 <p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
@@ -17,7 +18,10 @@ Rails apps below 3.0 are not supported.
 
 <h2 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">Setting up your reCAPTCHA API Keys</h2>
 <p style="font-family: Arial, sans-serif; color:#444; font-size:13px; line-height:18px; max-width:600px">
-There are multiple ways to setup your reCAPTCHA API key once you <a href="http://recaptcha.net/whyrecaptcha.html">obtain</a> a pair.
+The first step to using PlayCaptcha with Rails is to configure Recaptcha with your custom private and public key.  The reason for this is to allow a fallback to reCAPTCHA should it be needed.
+<br/>
+<br/>
+Please find examples below. Exceptions will be raised if you call these methods and the keys can't be found.  There are multiple ways to setup your reCAPTCHA API key once you <a href="http://recaptcha.net/whyrecaptcha.html">obtain</a> a pair.
 </p>
 
 <h2 style="font-family:'Droid Sans', Arial, sans-serif; font-weight:normal; color: #900; font-size:20px; margin:30px 0">PlayCaptcha.configure</h2>
