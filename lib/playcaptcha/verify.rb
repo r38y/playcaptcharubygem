@@ -13,7 +13,6 @@ module PlayCaptcha
       model = options[:model]
       attribute = options[:attribute] || :base
       private_key = options[:private_key] || PlayCaptcha.configuration.private_key
-      raise RecaptchaError, "No private key specified." unless private_key
 
       begin
         recaptcha = nil
