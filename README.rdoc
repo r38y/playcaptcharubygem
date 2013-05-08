@@ -5,15 +5,18 @@ Copyright:: Copyright (c) 2007-2013 Jason L Perry
 License::   {MIT}[http://creativecommons.org/licenses/MIT/]
 
 This plugin adds helpers for the {PlayCaptcha API}[http://futureadlabs.com] 
-and falls back to the {reCAPTCHA API}[http://recaptcha.net] if required. In your
-views you can use the +playcaptcha_tags+ method to embed the needed javascript,
-and you can validate in your controllers with +verify_playcaptcha+.
+and falls back to the {reCAPTCHA API}[http://recaptcha.net] if required.
 
-Beforehand you need to configure Recaptcha with your custom private and public
-key. You may find detailed examples below. Exceptions will be raised if you
-call these methods and the keys can't be found.
+This guide will describe two setup scenarios, the first is for users that just wish to 
+use PlayCaptcha, the second is for users who wish to use PlayCaptcha but with a fallback 
+to reCAPTCHA if required.
 
-== Rails Installation
+Please note that Rails apps below 3.0 are not supported.
+
+== Stand Alone PlayCaptcha Installation
+
+If you wish to install PlayCaptcha without reCAPTCHA fallback follow the steps in this 
+section.
 
 Place the playcaptcha gem file in the root of your project.
 
@@ -25,16 +28,75 @@ Once this is complete run the following command in the console from the root of 
 
   gem install playcaptcha
 
-Rails apps below 3.0 are not supported.
+In the forms you wish to use PlayCaptcha add the following tag:
 
-== Setting up your reCAPTCHA API Keys
+  <%= playcaptcha_tags %>
 
-This plugin allows a fallback to reCAPTCHA should PlayCaptcha be unavailable.
-For reCAPTCHA to work in this situation, your reCAPTCHA public and private keys
-must be specified.
+For example:
+
+  <%= form_for(@post) do |f| %>
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label :title %><br />
+      <%= f.text_field :title %>
+    </div>
+
+    <%= playcaptcha_tags %>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+
+You should now see PlayCaptcha on your form.
+
+The next step is to discover if the user has successfully completed the PlayCaptcha.
+To do this we use the verify_playcaptcha method.
+
+verify_playcaptcha returns a simple true or false result, and can be used as follows:
+
+  if verify_playcaptcha()
+    # ...
+  else
+    # ...
+  end
+
+You may also pass in an error message to be used if the verification fails, and a model
+to apply this error to:
+
+  if verify_playcaptcha(:model => @post, :message => "Oh No! PlayCaptcha Validation failed!") && @post.save
+    # ...
+  else
+    # ...
+  end
+
+You can also specify the attribute of your model to receive the error by using the :attribute parameter.
+
+With these steps complete, PlayCaptcha is fully setup to use.
+
+
+== PlayCaptcha Installation with Fallback to reCAPTCHA
+
+If you wish to install PlayCaptcha with reCAPTCHA fallback follow the steps in this 
+section.
+
+Place the playcaptcha gem file in the root of your project.
+
+Add the following to your Gemfile:
+
+  gem "playcaptcha", :require => "playcaptcha/rails"
+
+Once this is complete run the following command in the console from the root of your project:
+
+  gem install playcaptcha
+
+The next step is to set up your reCAPTCHA API Keys.
 
 To achieve this add the file +config/initializers/playcaptcha.rb+ to your Rails project,
-and enter your keys as follows.
+and add the following code to that file.
 
   PlayCaptcha.configure do |config|
     config.public_key  = '6Lc6BAAAAAAAAChqRbQZcn_yyyyyyyyyyyyyyyyy'
@@ -43,31 +105,51 @@ and enter your keys as follows.
 
 Replace the public and private keys with the keys for your site.
 
-== To use 'PlayCaptcha'
+In the forms you wish to use PlayCaptcha add the following tag:
 
-Add +recaptcha_tags+ to each form you want to protect. eg:
+  <%= playcaptcha_tags %>
 
-<%= playcaptcha_tags %>
+For example:
 
-And, add +verify_playcaptcha+ logic to each form action that you've protected.
+  <%= form_for(@post) do |f| %>
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label :title %><br />
+      <%= f.text_field :title %>
+    </div>
 
-=== +verify_playcaptcha+
+    <%= playcaptcha_tags %>
 
-This method returns +true+ or +false+ after processing the parameters from the PlayCaptcha/reCAPTCHA widget.
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
 
-Passing in the ActiveRecord object is optional, if you do--and the captcha fails to verify--an
-error will be added to the object for you to use.
+You should now see PlayCaptcha on your form.
 
-  if verify_playcaptcha(:model => @post, :message => "Oh! It's error with PlayCaptcha!") && @post.save
+The next step is to discover if the user has successfully completed the PlayCaptcha.
+To do this we use the verify_playcaptcha method.
+
+verify_playcaptcha returns a simple true or false result, and can be used as follows:
+
+  if verify_playcaptcha()
     # ...
   else
     # ...
   end
 
-Some of the options available:
+You may also pass in an error message to be used if the verification fails, and a model
+to apply this error to:
 
-<tt>:model</tt>::       Model to set errors
-<tt>:attribute</tt>::   Model attribute to receive errors (default :base)
-<tt>:message</tt>::     Custom error message
+  if verify_playcaptcha(:model => @post, :message => "Oh No! PlayCaptcha Validation failed!") && @post.save
+    # ...
+  else
+    # ...
+  end
 
-  
+You can also specify the attribute of your model to receive the error by using the :attribute parameter.
+
+With these steps complete, PlayCaptcha is fully setup to use.
