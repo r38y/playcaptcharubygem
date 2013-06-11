@@ -18,3 +18,7 @@ This will create the gem in dist/, e.g. dist/playcaptcha-0.2.1.gem
 6. Finish the release
 
     $ git-flow release finish 0.2.1
+
+7. Push the master branch to the repo
+
+    $ git push origin master && git push origin master --tags
