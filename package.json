@@ -1,0 +1,9 @@
+{
+  "name": "playcaptcharubygem",
+  "description": "PlayCaptcha Ruby Gem",
+  "version": "0.4.1",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-exec": "~0.4.1"
+  }
+}
