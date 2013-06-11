@@ -2,4 +2,3 @@ rdoc
 pkg
 Gemfile.lock
 .DS_Store
-*.gem
