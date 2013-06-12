@@ -84,6 +84,7 @@ module PlayCaptcha
         else
           raise RecaptchaError, "Recaptcha unreachable."
         end
+        
       rescue Exception => e
         raise RecaptchaError, e.message, e.backtrace
       end
