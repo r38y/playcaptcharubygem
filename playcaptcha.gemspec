@@ -3,14 +3,14 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "playcaptcha"
-  s.version     = "<version>"
+  s.version     = "0.4.4"
   s.authors     = ["Future Ad Labs"]
   s.email       = ["info@futureadlabs.com"]
   s.homepage    = "http://futureadlabs.com"
   s.summary     = %q{Helpers for the PlayCaptcha API}
   s.description = %q{This plugin adds helpers for the PlayCaptcha API}
 
-  s.files         = `git ls-files`.split("\n").select{ |x| !/(node_modules.*|Gruntfile|package.json|dist.*)/.match(x) }
+  s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_paths = ["lib"]
 
