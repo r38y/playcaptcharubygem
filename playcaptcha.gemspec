@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "playcaptcha"
-  s.version     = "0.4.4"
+  s.version     = "0.4.5"
   s.authors     = ["Future Ad Labs"]
   s.email       = ["info@futureadlabs.com"]
   s.homepage    = "http://futureadlabs.com"
