@@ -1,5 +1,5 @@
 require 'net/http'
-require 'playcaptcha'
+require 'play_captcha'
 module Rails
   module PlayCaptcha
     class Railtie < Rails::Railtie

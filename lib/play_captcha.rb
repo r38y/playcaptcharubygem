@@ -1,6 +1,6 @@
-require 'playcaptcha/configuration'
-require 'playcaptcha/client_helper'
-require 'playcaptcha/verify'
+require 'play_captcha/configuration'
+require 'play_captcha/client_helper'
+require 'play_captcha/verify'
 
 module PlayCaptcha
   RECAPTCHA_API_SERVER_URL        = '//www.google.com/recaptcha/api'
@@ -47,5 +47,5 @@ module PlayCaptcha
 end
 
 if defined?(Rails)
-  require 'playcaptcha/rails'
+  require 'play_captcha/rails'
 end
